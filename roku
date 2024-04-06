@@ -92,6 +92,22 @@ while [ $dombo -le $forcem ]; do
 done
 dombo=1
 }
+turn_down() {
+while [ $dombo -le 2 ]; do
+  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/home"
+  ((dombo=dombo+1))
+done
+dombo=1
+sleep 2
+while [ $dombo -le 6 ]; do
+  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/down"
+  ((dombo=dombo+1))
+done
+curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/select"
+sleep 1
+echo $lit | sed 's/./\0\n/g; s/|/%20/g' | xargs -I {} curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/Lit_{}"
+dombo=1
+}
 while read -r crack; do
   dumb='Roku'
   case "$crack" in
@@ -138,6 +154,8 @@ while read -r crack; do
     p) pause
     ;;
     fm) read -p 'Number: ' -r forcem; force_m
+    ;;
+   sm) read -p 'Say?: ' -r lit; turn_down
     ;;
     q) clear; exit 1
     ;;
