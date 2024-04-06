@@ -124,7 +124,7 @@ while read -r crack; do
     ;;
     pf) curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/powerOff"
     ;;
-    ap) read -p 'Row: ' -r sombo; read -p 'column: ' -r rombo; asdf
+    ap) read -p 'Column: ' -r sombo; read -p 'Row: ' -r rombo; asdf
     ;;
    pr) fdsa
     ;;
