@@ -74,13 +74,6 @@ done
 curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/select"
 dombo=1
 }
-pause() {
-  while [ $dombo -le 2 ]; do
-    curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/select"
-    ((dombo=dombo+1))
-  done
-dombo=1
-}
 force_m() {
 while [ $dombo -le $forcem ]; do
   curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/volumedown"
@@ -191,7 +184,7 @@ while read -r crack; do
     ;;
     pr) fdsa
     ;;
-    p) pause
+    p) curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/pause"
     ;;
     fm) read -p 'Number: ' -r forcem; force_m
     ;;
