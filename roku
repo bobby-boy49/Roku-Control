@@ -112,16 +112,52 @@ while [ $dombo -le 30 ]; do
 done
 dombo=1
 }
+force_w() {
+while [ $dombo -le $forcew ]; do
+  curl -d '' "http://$ROKU_DEV_TARGET:8060:/keypress/up"
+  ((dombo=dombo+1))
+done
+dombo=1
+}
+force_s() {
+while [ $dombo -le $forces ]; do
+  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/down"
+  ((dombo=dombo+1))
+done
+dombo=1
+}
+force_a() {
+  while [ $dombo -le $forcea ]; do
+    curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/left"
+    ((dombo=dombo+1))
+  done
+dombo=1
+}
+force_d() {
+  while [ $dombo -le $forced ]; do
+    curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/right"
+    ((dombo=dombo+1))
+  done
+dombo=1
+}
 while read -r crack; do
   dumb='Roku'
   case "$crack" in
     w) curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/up"
     ;;
+    ww) read -p 'Number: ' -r forcew; force_w
+    ;;
     s) curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/down"
+    ;;
+    ss) read -p 'Number: ' -r forces; force_s 
     ;;
     a) curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/left"
     ;;
+    aa) read -p 'Number: ' -r forcea; force_a
+    ;;
     d) curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/right"
+    ;;
+    dd) read -p 'Number: ' -r forced; force_d
     ;;
     0) curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/volumeup"
     ;;
