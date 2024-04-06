@@ -118,7 +118,7 @@ while read -r crack; do
     ;;
     c) curl "http://$ROKU_DEV_TARGET:8060/query/chanperf"; sleep 5
     ;;
-    l) read -p 'Keyboard: ' -r lit; echo "$lit" | sed 's/./\0\n/g' | xargs -I {} curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/Lit_{}"
+    l) read -p 'Keyboard: ' -r lit; echo $lit | sed 's/./\0\n/g; s/|/%20/g' | xargs -I {} curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/Lit_{}"
     ;;
     pn) curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/powerOn"
     ;;
