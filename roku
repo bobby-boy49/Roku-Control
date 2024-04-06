@@ -102,7 +102,14 @@ done
 sleep 1
 curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/select"
 sleep 1
-echo $lit | sed 's/./\0\n/g; s/|/%20/g; s/?/%3F/g' | xargs -I {} curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/Lit_{}"
+echo $lit | sed "s/./\0\n/g; s/|/%20/g; s/?/%3F/g; s/'/%27/g; s/,/%2C/g; s/\"/%22/g" | xargs -I {} curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/Lit_{}"
+dombo=1
+}
+force_b() {
+while [ $dombo -le 30 ]; do
+  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/backspace"
+  ((dombo=dombo+1))
+done
 dombo=1
 }
 while read -r crack; do
@@ -138,7 +145,7 @@ while read -r crack; do
     ;;
     c) curl "http://$ROKU_DEV_TARGET:8060/query/chanperf"; sleep 5
     ;;
-    l) read -p 'Keyboard: ' -r lit; echo $lit | sed 's/./\0\n/g; s/|/%20/g; s/?/%3F/g' | xargs -I {} curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/Lit_{}"
+    l) read -p 'Keyboard: ' -r lit; echo $lit | sed "s/./\0\n/g; s/|/%20/g; s/?/%3F/g; s/'/%27/g; s/,/%2C/g; s/\"/%22/g" | xargs -I {} curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/Lit_{}"
     ;;
     pn) curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/powerOn"
     ;;
@@ -153,6 +160,10 @@ while read -r crack; do
     fm) read -p 'Number: ' -r forcem; force_m
     ;;
     sm) read -p 'Say?: ' -r lit; turn_down
+    ;;
+    f) curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/backspace"
+    ;;
+    ff) force_b
     ;;
     q) clear; exit 1
     ;;
