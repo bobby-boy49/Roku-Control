@@ -53,13 +53,29 @@ while [ $dombo -le 5 ]; do
     ((dombo=dombo+1))
 done
 
-sleep 120
+sleep 115
 
 curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/home"
 
 sleep 60
 
 curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/powerOff"
+sleep 120
+curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/powerOn"
+sleep 10
+curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/home"
+sleep 1
+dombo=1
+while [[ $dombo -le 3 ]]; do
+curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/right"
+ ((dombo=dombo+1))
+done
+dombo=1
+while [[ $dombo -le 3 ]]; do
+curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/down"
+ ((dombo=dombo+1))
+done
+curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/select"
 dombo=1
 }
 pause() {
@@ -108,7 +124,7 @@ while read -r crack; do
     ;;
     pf) curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/powerOff"
     ;;
-    ap) read -p 'Row 1: ' -r sombo; read -p 'Row 2: ' -r rombo; asdf
+    ap) read -p 'Row: ' -r sombo; read -p 'column: ' -r rombo; asdf
     ;;
    pr) fdsa
     ;;
