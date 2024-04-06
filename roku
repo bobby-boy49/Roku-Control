@@ -107,7 +107,7 @@ dombo=1
 }
 force_w() {
 while [ $dombo -le $forcew ]; do
-  curl -d '' "http://$ROKU_DEV_TARGET:8060:/keypress/up"
+  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/up"
   ((dombo=dombo+1))
 done
 dombo=1
