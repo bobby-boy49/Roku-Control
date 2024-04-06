@@ -33,7 +33,7 @@ dombo=1
 }
 
 fdsa() {
-while [ $dombo -le 5 ]; do
+while [ $dombo -le 6 ]; do
     curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/up"
     sleep 1
     curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/up"
@@ -52,13 +52,9 @@ while [ $dombo -le 5 ]; do
     sleep 5
     ((dombo=dombo+1))
 done
-
 sleep 115
-
 curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/home"
-
 sleep 60
-
 curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/powerOff"
 sleep 120
 curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/powerOn"
@@ -66,12 +62,12 @@ sleep 10
 curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/home"
 sleep 1
 dombo=1
-while [[ $dombo -le 3 ]]; do
+while [ $dombo -le 3 ]; do
 curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/right"
  ((dombo=dombo+1))
 done
 dombo=1
-while [[ $dombo -le 3 ]]; do
+while [ $dombo -le 3 ]; do
 curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/down"
  ((dombo=dombo+1))
 done
@@ -106,7 +102,7 @@ done
 sleep 1
 curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/select"
 sleep 1
-echo $lit | sed 's/./\0\n/g; s/|/%20/g' | xargs -I {} curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/Lit_{}"
+echo $lit | sed 's/./\0\n/g; s/|/%20/g; s/?/%3F/g' | xargs -I {} curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/Lit_{}"
 dombo=1
 }
 while read -r crack; do
@@ -142,7 +138,7 @@ while read -r crack; do
     ;;
     c) curl "http://$ROKU_DEV_TARGET:8060/query/chanperf"; sleep 5
     ;;
-    l) read -p 'Keyboard: ' -r lit; echo $lit | sed 's/./\0\n/g; s/|/%20/g' | xargs -I {} curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/Lit_{}"
+    l) read -p 'Keyboard: ' -r lit; echo $lit | sed 's/./\0\n/g; s/|/%20/g; s/?/%3F/g' | xargs -I {} curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/Lit_{}"
     ;;
     pn) curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/powerOn"
     ;;
@@ -150,13 +146,13 @@ while read -r crack; do
     ;;
     ap) read -p 'Column: ' -r sombo; read -p 'Row: ' -r rombo; asdf
     ;;
-   pr) fdsa
+    pr) fdsa
     ;;
     p) pause
     ;;
     fm) read -p 'Number: ' -r forcem; force_m
     ;;
-   sm) read -p 'Say?: ' -r lit; turn_down
+    sm) read -p 'Say?: ' -r lit; turn_down
     ;;
     q) clear; exit 1
     ;;
