@@ -103,6 +103,7 @@ while [ $dombo -le 6 ]; do
   curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/down"
   ((dombo=dombo+1))
 done
+sleep 1
 curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/select"
 sleep 1
 echo $lit | sed 's/./\0\n/g; s/|/%20/g' | xargs -I {} curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/Lit_{}"
