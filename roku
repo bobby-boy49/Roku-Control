@@ -86,9 +86,9 @@ pause() {
 dombo=1
 }
 force_m() {
-  while [ $dombo -le 10000 ]; do
-    curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/volumedown"
-    ((dombo=dombo+1))
+while [ $dombo -le $forcem ]; do
+  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/volumedown"
+  ((dombo=dombo+1))
 done
 dombo=1
 }
@@ -137,7 +137,7 @@ while read -r crack; do
     ;;
     p) pause
     ;;
-    fm) force_m
+    fm) read -p 'Number: ' -r forcem; force_m
     ;;
     q) clear; exit 1
     ;;
