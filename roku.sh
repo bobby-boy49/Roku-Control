@@ -14,7 +14,7 @@ done
 
 dombo=1
 
-sleep 1
+sleep 2
 
 while [ $dombo -le $sombo ]; do
   curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/right"
