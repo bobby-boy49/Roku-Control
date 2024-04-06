@@ -136,6 +136,7 @@ dombo=1
 select_j() {
   while [ $dombo -le 2 ]; do
     curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/select"
+    sleep 1
     ((dombo=dombo+1))
   done
 dombo=1
