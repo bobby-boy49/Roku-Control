@@ -222,6 +222,8 @@ while read -r crack; do
     ;;
     ff) force_b
     ;;
+    sw) telnet towel.blinkenlights.nl
+    ;;
     q) clear; exit 1
     ;;
     *) dumb="No dumb ass."
