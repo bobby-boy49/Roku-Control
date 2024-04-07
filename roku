@@ -141,6 +141,13 @@ select_j() {
   done
 dombo=1
 }
+force_h() {
+  while [ $dombo -le $forceh ]; do
+    curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/home"
+    ((dombo=dombo+1))
+  done
+dombo=1
+}
 while read -r crack; do
   dumb='Roku'
   case "$crack" in
@@ -173,6 +180,8 @@ while read -r crack; do
     b) curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/back"
     ;;
     h) curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/home"
+    ;;
+    fh) read -p 'Number: ' -r forceh; force_h
     ;;
     m) curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/volumemute"
     ;;
