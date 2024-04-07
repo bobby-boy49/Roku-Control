@@ -14,7 +14,7 @@ done
 
 dombo=1
 
-sleep 2
+sleep 1.5
 
 while [ $dombo -le $sombo ]; do
   curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/right"
@@ -77,6 +77,7 @@ dombo=1
 force_m() {
 while [ $dombo -le $forcem ]; do
   curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/volumedown"
+  sleep 0.2
   ((dombo=dombo+1))
 done
 dombo=1
@@ -92,15 +93,16 @@ while [ $dombo -le 6 ]; do
   curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/down"
   ((dombo=dombo+1))
 done
-sleep 1
+sleep 0.5
 curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/select"
-sleep 1
+sleep 0.5
 echo $lit | sed "s/./\0\n/g; s/|/%20/g; s/?/%3F/g; s/'/%27/g; s/,/%2C/g; s/\"/%22/g" | xargs -I {} curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/Lit_{}"
 dombo=1
 }
 force_b() {
 while [ $dombo -le 30 ]; do
   curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/backspace"
+  sleep 0.2
   ((dombo=dombo+1))
 done
 dombo=1
@@ -108,6 +110,7 @@ dombo=1
 force_w() {
 while [ $dombo -le $forcew ]; do
   curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/up"
+  sleep 0.2
   ((dombo=dombo+1))
 done
 dombo=1
@@ -115,6 +118,7 @@ dombo=1
 force_s() {
 while [ $dombo -le $forces ]; do
   curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/down"
+  sleep 0.2
   ((dombo=dombo+1))
 done
 dombo=1
@@ -122,6 +126,7 @@ dombo=1
 force_a() {
   while [ $dombo -le $forcea ]; do
     curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/left"
+    sleep 0.2
     ((dombo=dombo+1))
   done
 dombo=1
@@ -129,6 +134,7 @@ dombo=1
 force_d() {
   while [ $dombo -le $forced ]; do
     curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/right"
+    sleep 0.2
     ((dombo=dombo+1))
   done
 dombo=1
@@ -136,7 +142,7 @@ dombo=1
 select_j() {
   while [ $dombo -le 2 ]; do
     curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/select"
-    sleep 4
+    sleep 3.5
     ((dombo=dombo+1))
   done
 dombo=1
@@ -144,6 +150,7 @@ dombo=1
 force_h() {
   while [ $dombo -le $forceh ]; do
     curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/home"
+    sleep 0.2
     ((dombo=dombo+1))
   done
 dombo=1
@@ -151,6 +158,15 @@ dombo=1
 force_u() {
   while [ $dombo -le $forceu ]; do
     curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/volumeup"
+    sleep 0.2
+    ((dombo=dombo+1))
+  done
+dombo=1
+}
+force_t() {
+  while [ $dombo -le $forcet ]; do
+    curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/search"
+    sleep 0.4
     ((dombo=dombo+1))
   done
 dombo=1
@@ -193,6 +209,8 @@ while read -r crack; do
     m) curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/volumemute"
     ;;
     t) curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/search"
+    ;;
+    ft) read -p 'Number: ' -r forcet; force_t
     ;;
     e) curl "http://$ROKU_DEV_TARGET:8060/query/media-player"; sleep 5
     ;;
