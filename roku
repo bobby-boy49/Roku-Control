@@ -148,6 +148,13 @@ force_h() {
   done
 dombo=1
 }
+force_u() {
+  while [ $dombo -le $forceu ]; do
+    curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/volumeup"
+    ((dombo=dombo+1))
+  done
+dombo=1
+}
 while read -r crack; do
   dumb='Roku'
   case "$crack" in
@@ -206,6 +213,8 @@ while read -r crack; do
     p) curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/pause"
     ;;
     fm) read -p 'Number: ' -r forcem; force_m
+    ;;
+    fu) read -p 'Number: ' -r forceu; force_u
     ;;
     sm) read -p 'Say?: ' -r lit; turn_down
     ;;
