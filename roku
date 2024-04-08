@@ -232,7 +232,11 @@ while read -r crack; do
     ;;
     fm|99) read -p 'Number: ' -r forcem; force_m
     ;;
+    td) forcem=8; force_m
+    ;;
     fu|00) read -p 'Number: ' -r forceu; force_u
+    ;;
+    tu) forceu=8; force_u
     ;;
     sm) read -p 'Say?: ' -r lit; turn_down
     ;;
