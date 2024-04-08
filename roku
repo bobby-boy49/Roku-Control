@@ -2,13 +2,64 @@
 
 clear; ROKU_DEV_TARGET="$(echo 'grabing the ip!' 1>&2; nmap -sn 192.168.1.1/24 | grep 'SullysTv' | awk '{print $6}' | sed 's/(//; s/)//')"
 
+home() {
+  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/home"
+}
+up() {
+  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/up"
+}
+down() {
+  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/down"
+}
+left() {
+  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/left"
+}
+right() {
+  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/right"
+}
+selectt() {
+  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/select"
+}
+enter() {
+  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/enter"
+}
+pause() {
+  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/pause"
+}
+volumeup() {
+  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/volumeup"
+}
+volumedown() {
+  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/volumedown"
+}
+volumemute() {
+  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/volumemute"
+}
+powerOn() {
+  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/powerOn"
+}
+powerOff() {
+  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/powerOff"
+}
+search() {
+  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/search"
+}
+backspace() {
+  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/backspace"
+}
+back() {
+  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/back"
+}
+litt() {
+  echo $lit | sed "s/./\0\n/g; s/|/%20/g; s/?/%3F/g; s/'/%27/g; s/,/%2C/g; s/\"/%22/g" | xargs -I {} curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/Lit_{}"
+}
 clear; echo 'Roku'
 
 dombo=1
 
 asdf() {
 while [ $dombo -le 2 ]; do
-  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/home"
+  home
   ((dombo=dombo+1))
 done
 
@@ -17,66 +68,66 @@ dombo=1
 sleep 1.5
 
 while [ $dombo -le $sombo ]; do
-  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/right"
+  right
   ((dombo=dombo+1))
 done
 
 dombo=1
 
 while [ $dombo -le $rombo ]; do
-  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/down"
+  down
   ((dombo=dombo+1))
 done
 
-curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/select"
+selectt
 dombo=1
 }
 
 fdsa() {
 while [ $dombo -le 6 ]; do
-    curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/up"
+    up
     sleep 1
-    curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/up"
+    up
     sleep 2
-    curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/down"
+    down
     sleep 1
-    curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/down"
+    down
     sleep 2
-    curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/left"
+    left
     sleep 1
-    curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/right"
+    right
     sleep 2
-    curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/left"
+    left
     sleep 1
-    curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/right"
+    right
     sleep 5
     ((dombo=dombo+1))
 done
 sleep 115
-curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/home"
+home
 sleep 60
-curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/powerOff"
+powerOff
 sleep 120
-curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/powerOn"
+powerOn
 sleep 10
-curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/home"
+home
 sleep 1
 dombo=1
 while [ $dombo -le 3 ]; do
-curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/right"
+  right
  ((dombo=dombo+1))
 done
 dombo=1
 while [ $dombo -le 3 ]; do
-curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/down"
+  down
  ((dombo=dombo+1))
 done
-curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/select"
+selectt
 dombo=1
 }
 force_m() {
 while [ $dombo -le $forcem ]; do
-  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/volumedown"
+  volumedown
   sleep 0.2
   ((dombo=dombo+1))
 done
@@ -84,24 +135,24 @@ dombo=1
 }
 turn_down() {
 while [ $dombo -le 2 ]; do
-  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/home"
+  home
   ((dombo=dombo+1))
 done
 dombo=1
 sleep 2
 while [ $dombo -le 6 ]; do
-  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/down"
+  down
   ((dombo=dombo+1))
 done
 sleep 0.5
-curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/select"
+selectt
 sleep 0.5
-echo $lit | sed "s/./\0\n/g; s/|/%20/g; s/?/%3F/g; s/'/%27/g; s/,/%2C/g; s/\"/%22/g" | xargs -I {} curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/Lit_{}"
+litt
 dombo=1
 }
 force_b() {
 while [ $dombo -le 30 ]; do
-  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/backspace"
+  backspace
   sleep 0.2
   ((dombo=dombo+1))
 done
@@ -109,7 +160,7 @@ dombo=1
 }
 force_w() {
 while [ $dombo -le $forcew ]; do
-  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/up"
+  up
   sleep 0.2
   ((dombo=dombo+1))
 done
@@ -117,7 +168,7 @@ dombo=1
 }
 force_s() {
 while [ $dombo -le $forces ]; do
-  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/down"
+  down
   sleep 0.2
   ((dombo=dombo+1))
 done
@@ -125,7 +176,7 @@ dombo=1
 }
 force_a() {
   while [ $dombo -le $forcea ]; do
-    curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/left"
+    left
     sleep 0.2
     ((dombo=dombo+1))
   done
@@ -133,7 +184,7 @@ dombo=1
 }
 force_d() {
   while [ $dombo -le $forced ]; do
-    curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/right"
+    right
     sleep 0.2
     ((dombo=dombo+1))
   done
@@ -141,7 +192,7 @@ dombo=1
 }
 select_j() {
   while [ $dombo -le 2 ]; do
-    curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/select"
+    selectt
     sleep 3.5
     ((dombo=dombo+1))
   done
@@ -149,7 +200,7 @@ dombo=1
 }
 force_h() {
   while [ $dombo -le $forceh ]; do
-    curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/home"
+    home
     sleep 0.2
     ((dombo=dombo+1))
   done
@@ -157,7 +208,7 @@ dombo=1
 }
 force_u() {
   while [ $dombo -le $forceu ]; do
-    curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/volumeup"
+    volumeup
     sleep 0.2
     ((dombo=dombo+1))
   done
@@ -165,7 +216,7 @@ dombo=1
 }
 force_t() {
   while [ $dombo -le $forcet ]; do
-    curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/search"
+    search
     sleep 0.4
     ((dombo=dombo+1))
   done
@@ -174,41 +225,41 @@ dombo=1
 while read -r crack; do
   dumb='Roku'
   case "$crack" in
-    w) curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/up"
+    w) up
     ;;
     ww) read -p 'Number: ' -r forcew; force_w
     ;;
-    s) curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/down"
+    s) down
     ;;
     ss) read -p 'Number: ' -r forces; force_s 
     ;;
-    a) curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/left"
+    a) left
     ;;
     aa) read -p 'Number: ' -r forcea; force_a
     ;;
-    d) curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/right"
+    d) right
     ;;
     dd) read -p 'Number: ' -r forced; force_d
     ;;
-    0) curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/volumeup"
+    0) volumeup
     ;;
-    9) curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/volumedown"
+    9) volumedown
     ;;
-    j) curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/select"
+    j) selectt
     ;;
     jj) select_j
     ;;
-    k) curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/enter"
+    k) enter
     ;;
-    b) curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/back"
+    b) back
     ;;
-    h) curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/home"
+    h) home
     ;;
     fh) read -p 'Number: ' -r forceh; force_h
     ;;
-    m) curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/volumemute"
+    m) volumemute
     ;;
-    t) curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/search"
+    t) search
     ;;
     ft) read -p 'Number: ' -r forcet; force_t
     ;;
@@ -218,17 +269,17 @@ while read -r crack; do
     ;;
     c) curl "http://$ROKU_DEV_TARGET:8060/query/chanperf"; sleep 5
     ;;
-    l) read -p 'Keyboard: ' -r lit; echo $lit | sed "s/./\0\n/g; s/|/%20/g; s/?/%3F/g; s/'/%27/g; s/,/%2C/g; s/\"/%22/g" | xargs -I {} curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/Lit_{}"
+    l) read -p 'Keyboard: ' -r lit; litt
     ;;
-    pn) curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/powerOn"
+    pn) powerOn
     ;;
-    pf) curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/powerOff"
+    pf) powerOff
     ;;
     ap) read -p 'Column: ' -r sombo; read -p 'Row: ' -r rombo; asdf
     ;;
     pr) fdsa
     ;;
-    p) curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/pause"
+    p) pause
     ;;
     fm|99) read -p 'Number: ' -r forcem; force_m
     ;;
@@ -240,7 +291,7 @@ while read -r crack; do
     ;;
     sm) read -p 'Say?: ' -r lit; turn_down
     ;;
-    f) curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/backspace"
+    f) backspace
     ;;
     ff) force_b
     ;;
