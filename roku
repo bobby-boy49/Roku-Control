@@ -230,9 +230,9 @@ while read -r crack; do
     ;;
     p) curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/pause"
     ;;
-    fm) read -p 'Number: ' -r forcem; force_m
+    fm|99) read -p 'Number: ' -r forcem; force_m
     ;;
-    fu) read -p 'Number: ' -r forceu; force_u
+    fu|00) read -p 'Number: ' -r forceu; force_u
     ;;
     sm) read -p 'Say?: ' -r lit; turn_down
     ;;
