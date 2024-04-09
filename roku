@@ -244,9 +244,17 @@ sleep_t() {
       n|N) echo "Ok!"
       ;;   
   esac
+  min=1
+  sec=0
   while [ $dombo -le $(($sleept*60)) ]; do
     clear
-    echo "SEC: $(($(($sleept*60))-$dombo))"
+    echo "$(($sleept-$min)):$((59-$sec))"
+    if [ $sec -le 58 ]; then
+    ((sec=sec+1))
+    else
+    sec=0
+    ((min=min+1))
+    fi
     sleep 1
     ((dombo=dombo+1))
   done
