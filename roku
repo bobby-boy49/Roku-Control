@@ -222,6 +222,38 @@ force_t() {
   done
 dombo=1
 }
+sleep_t() {
+  clear
+  echo "(1) for home."
+  echo "(2) for powerOff."
+  echo
+  read -r sleepopt
+  case "$sleepopt" in
+    1) sleepopt='home'
+    ;;
+    2) sleepopt='powerOff'
+    ;;
+  esac
+  clear
+  echo "kill script after countdown? (y/n)"
+  echo
+  read -r sleepwtd
+  case "$sleepwtd" in
+      y|Y) sleepwtd='exit 1'
+      ;;
+      n|N) echo "Ok!"
+      ;;   
+  esac
+  while [ $dombo -le $(($sleept*60)) ]; do
+    clear
+    echo "SEC: $(($(($sleept*60))-$dombo))"
+    sleep 1
+    ((dombo=dombo+1))
+  done
+  $sleepopt
+  $sleepwtd
+dombo=1
+}
 while read -r crack; do
   dumb='Roku'
   case "$crack" in
@@ -296,6 +328,8 @@ while read -r crack; do
     ff) force_b
     ;;
     sw) telnet towel.blinkenlights.nl
+    ;;
+    sp) read -p 'Min(s): ' -r sleept; sleep_t
     ;;
     q) clear; exit 1
     ;;
