@@ -233,6 +233,8 @@ sleep_t() {
     ;;
     2) sleepopt='powerOff'
     ;;
+    *) exit 1
+    ;;
   esac
   clear
   echo "kill script after countdown? (y/n)"
@@ -242,7 +244,9 @@ sleep_t() {
       y|Y) sleepwtd='exit 1'
       ;;
       n|N) echo "Ok!"
-      ;;   
+      ;;
+      *) exit 1
+      ;;
   esac
   min=1
   sec=0
