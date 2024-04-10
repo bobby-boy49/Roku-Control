@@ -263,6 +263,7 @@ sleep_t() {
     ((dombo=dombo+1))
   done
   $sleepopt
+  clear  
   $sleepwtd
 dombo=1
 }
