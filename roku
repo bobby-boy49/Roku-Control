@@ -248,17 +248,16 @@ sleep_t() {
       *) exit 1
       ;;
   esac
-  min=1
-  sec=0
+  day=86400
+  hor=3600
   while [ $dombo -le $(($sleept*60)) ]; do
     clear
-    echo "$(($sleept-$min)):$((59-$sec))"
-    if [ $sec -le 58 ]; then
-    ((sec=sec+1))
-    else
-    sec=0
-    ((min=min+1))
-    fi
+    secd=$[sleept*60-dombo]
+    printf "%01d:%01d:%01d:%02d\r\n" \
+            $[secd/day] \
+            $[secd%day/hor] \
+            $[secd%day%hor/60] \
+            $[secd%60]
     sleep 1
     ((dombo=dombo+1))
   done
