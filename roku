@@ -343,6 +343,8 @@ while read -r crack; do
     ;;
     sp) read -p 'Min(s): ' -r sleept; sleep_t
     ;;
+    sig) clear; $($(printf cHJpbnRmCg== | base64 -d) "ZWNobwo=" | base64 -d) WW05aVlubGZZbTk1TkRrSwo= | base64 -d | $(printf YmFzZTY0IC1kCg== | base64 -d); sleep 5
+    ;;
     q) clear; exit 1
     ;;
     *) dumb="No dumb ass."
