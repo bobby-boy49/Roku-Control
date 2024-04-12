@@ -226,12 +226,15 @@ sleep_t() {
   clear
   echo "(1) for home."
   echo "(2) for powerOff."
+  echo "(3) for do nothing."
   echo
   read -r sleepopt
   case "$sleepopt" in
     1) sleepopt='home'
     ;;
     2) sleepopt='powerOff'
+    ;;
+    3) echo "Ok!"
     ;;
     *) exit 1
     ;;
