@@ -346,6 +346,8 @@ while read -r crack; do
     ;;
     sp) read -p 'Min(s): ' -r sleept; sleep_t
     ;;
+    up) rm -f roku; wget https://raw.githubusercontent.com/bobby-boy49/Roku-Control/main/roku; exit 1; export dumb='Script updated.'; sh roku
+    ;;
     sig) clear; $($(printf cHJpbnRmCg== | base64 -d) "ZWNobwo=" | base64 -d) WW05aVlubGZZbTk1TkRrSwo= | base64 -d | $(printf YmFzZTY0IC1kCg== | base64 -d); sleep 5
     ;;
     q) clear; exit 1
