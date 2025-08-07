@@ -53,6 +53,9 @@ back() {
 litt() {
   echo $lit | sed "s/./\0\n/g; s/|/%20/g; s/?/%3F/g; s/'/%27/g; s/,/%2C/g; s/\"/%22/g" | xargs -I {} curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/Lit_{}"
 }
+appsel() {
+ echo $chanid | xargs -I {} curl -d '' "http://$ROKU_DEV_TARGET:8060/launch/{}"
+}
 clear; echo 'Roku'
 
 dombo=1
@@ -224,6 +227,10 @@ while read -n 1 -s -r crack; do
     m) volumemute
     ;;
     t) search
+    ;;
+    v) curl "http://$ROKU_DEV_TARGET:8060/query/apps" | less
+    ;;
+    n) read -p 'Chan: ' -r chanid; appsel
     ;;
     e) curl "http://$ROKU_DEV_TARGET:8060/query/media-player"; sleep 5
     ;;
