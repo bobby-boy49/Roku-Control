@@ -203,7 +203,7 @@ apple() {
 curl -s "http://$ROKU_DEV_TARGET:8060/query/apps"
 }
 chanlog() {
-  chanid=$(apple | sed '/<?xml version="1.0" encoding="UTF-8" ?>/d; /<apps>/d; /<\/apps>/d; s/<app//g; s/<\/app>//g; s/"//g; s/type=appl//g; s/version=//g; s/>/ /g' | fzf --layout=reverse | awk '{print $1}' | sed 's/id=//')
+  chanid=$(apple | sed '/<?xml version="1.0" encoding="UTF-8" ?>/d; /<apps>/d; /<\/apps>/d; s/<app//g; s/<\/app>//g; s/"//g; s/id=//g; s/type=appl//g; s/version=//g; s/>/ /g' | fzf --layout=reverse | awk '{print $1}')
 }
 while read -n 1 -s -r crack; do
   dumb='Roku'
