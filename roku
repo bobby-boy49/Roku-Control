@@ -1,0 +1,262 @@
+#!/usr/bin/env bash
+
+clear; ROKU_DEV_TARGET="192.168.1.210"
+
+home() {
+  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/home"
+}
+up() {
+  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/up"
+}
+down() {
+  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/down"
+}
+left() {
+  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/left"
+}
+right() {
+  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/right"
+}
+selectt() {
+  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/select"
+}
+enter() {
+  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/enter"
+}
+pause() {
+  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/pause"
+}
+volumeup() {
+  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/volumeup"
+}
+volumedown() {
+  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/volumedown"
+}
+volumemute() {
+  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/volumemute"
+}
+powerOn() {
+  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/powerOn"
+}
+powerOff() {
+  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/powerOff"
+}
+search() {
+  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/search"
+}
+backspace() {
+  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/backspace"
+}
+back() {
+  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/back"
+}
+litt() {
+  echo $lit | sed "s/./\0\n/g; s/|/%20/g; s/?/%3F/g; s/'/%27/g; s/,/%2C/g; s/\"/%22/g" | xargs -I {} curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/Lit_{}"
+}
+clear; echo 'Roku'
+
+dombo=1
+
+asdf() {
+while [ $dombo -le 2 ]; do
+  home
+  ((dombo=dombo+1))
+done
+
+dombo=1
+
+sleep 1.5
+
+while [ $dombo -le $sombo ]; do
+  right
+  ((dombo=dombo+1))
+done
+
+dombo=1
+
+while [ $dombo -le $rombo ]; do
+  down
+  ((dombo=dombo+1))
+done
+
+selectt
+dombo=1
+}
+
+fdsa() {
+while [ $dombo -le 6 ]; do
+    up
+    sleep 1
+    up
+    sleep 2
+    down
+    sleep 1
+    down
+    sleep 2
+    left
+    sleep 1
+    right
+    sleep 2
+    left
+    sleep 1
+    right
+    sleep 5
+    ((dombo=dombo+1))
+done
+sleep 115
+home
+sleep 60
+powerOff
+sleep 120
+powerOn
+sleep 10
+home
+sleep 1
+dombo=1
+while [ $dombo -le 3 ]; do
+  right
+ ((dombo=dombo+1))
+done
+dombo=1
+while [ $dombo -le 3 ]; do
+  down
+ ((dombo=dombo+1))
+done
+selectt
+dombo=1
+}
+force_m() {
+while [ $dombo -le $forcem ]; do
+  volumedown
+  sleep 0.2
+  ((dombo=dombo+1))
+done
+dombo=1
+}
+force_h() {
+  while [ $dombo -le $forceh ]; do
+    home
+    sleep 0.2
+    ((dombo=dombo+1))
+  done
+dombo=1
+}
+force_u() {
+  while [ $dombo -le $forceu ]; do
+    volumeup
+    sleep 0.2
+    ((dombo=dombo+1))
+  done
+dombo=1
+}
+sleep_t() {
+  clear
+  echo "(1) for home."
+  echo "(2) for powerOff."
+  echo "(3) for do nothing."
+  echo
+  read -r sleepopt
+  case "$sleepopt" in
+    1) sleepopt='home'
+    ;;
+    2) sleepopt='powerOff'
+    ;;
+    3) echo "Ok!"
+    ;;
+    *) exit 1
+    ;;
+  esac
+  clear
+  echo "kill script after countdown? (y/n)"
+  echo
+  read -r sleepwtd
+  case "$sleepwtd" in
+      y|Y) sleepwtd='exit 1'
+      ;;
+      n|N) echo "Ok!"
+      ;;
+      *) exit 1
+      ;;
+  esac
+  day=86400
+  hor=3600
+  while [ $dombo -le $(($sleept*60)) ]; do
+    clear
+    secd=$[sleept*60-dombo]
+    printf "%01d:%01d:%01d:%02d\r\n" \
+            $[secd/day] \
+            $[secd%day/hor] \
+            $[secd%day%hor/60] \
+            $[secd%60]
+    sleep 1
+    ((dombo=dombo+1))
+  done
+  $sleepopt
+  clear  
+  $sleepwtd
+dombo=1
+}
+while read -n 1 -s -r crack; do
+  dumb='Roku'
+  case "$crack" in
+    w) up
+    ;;
+    s) down 
+    ;;
+    a) left
+    ;;
+    d) right
+    ;;
+    0) volumeup
+    ;;
+    9) volumedown
+    ;;
+    j) selectt
+    ;;
+    k) enter
+    ;;
+    b) back
+    ;;
+    h) home
+    ;;
+    y) read -p 'Number: ' -r forceh; force_h
+    ;;
+    m) volumemute
+    ;;
+    t) search
+    ;;
+    e) curl "http://$ROKU_DEV_TARGET:8060/query/media-player"; sleep 5
+    ;;
+    i) curl -s "http://$ROKU_DEV_TARGET:8060/query/device-info" > Roku-info.txt; clear; echo 'Saved info!' 1>&2; sleep 3
+    ;;
+    c) curl "http://$ROKU_DEV_TARGET:8060/query/chanperf"; sleep 5
+    ;;
+    l) read -p 'Keyboard: ' -r lit; litt
+    ;;
+    1) powerOn
+    ;;
+    2) powerOff
+    ;;
+    g) read -p 'Column: ' -r sombo; read -p 'Row: ' -r rombo; asdf
+    ;;
+    r) fdsa
+    ;;
+    p) pause
+    ;;
+    7) read -p 'Number: ' -r forcem; force_m
+    ;;
+    8) read -p 'Number: ' -r forceu; force_u
+    ;;
+    f) backspace
+    ;;
+    x) read -p 'Min(s): ' -r sleept; sleep_t
+    ;;
+    q) clear; exit 1
+    ;;
+    *) dumb="No dumb ass."
+    ;;
+  esac
+  clear
+  echo "$dumb"
+done
+exit 1
