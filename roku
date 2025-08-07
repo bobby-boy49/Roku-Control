@@ -199,6 +199,12 @@ sleep_t() {
   $sleepwtd
 dombo=1
 }
+apple() {
+curl -s "http://$ROKU_DEV_TARGET:8060/query/apps"
+}
+chanlog() {
+  chanid=$(apple | sed '/<?xml version="1.0" encoding="UTF-8" ?>/d; /<apps>/d; /<\/apps>/d; s/<app//g; s/<\/app>//g; s/"//g; s/type=appl//g; s/version=//g; s/>/ /g' | fzf --layout=reverse | awk '{print $1}' | sed 's/id=//')
+}
 while read -n 1 -s -r crack; do
   dumb='Roku'
   case "$crack" in
@@ -228,9 +234,9 @@ while read -n 1 -s -r crack; do
     ;;
     t) search
     ;;
-    v) curl "http://$ROKU_DEV_TARGET:8060/query/apps" | less
+    v) apple | less
     ;;
-    n) read -p 'Chan: ' -r chanid; appsel
+    n) chanlog; appsel
     ;;
     e) curl "http://$ROKU_DEV_TARGET:8060/query/media-player"; sleep 5
     ;;
