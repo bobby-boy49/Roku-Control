@@ -153,6 +153,7 @@ force_u() {
 dombo=1
 }
 sleep_t() {
+  dombo=0
   clear
   echo "(1) for home."
   echo "(2) for powerOff."
