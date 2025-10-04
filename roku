@@ -51,7 +51,6 @@ back() {
   curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/back"
 }
 litt() {
-read -r keyboard
 while IFS= read -n 1 -s -r char; do
   case "$char" in
     ' ') encode_char='%20';;
@@ -77,7 +76,7 @@ while IFS= read -n 1 -s -r char; do
     *) encode_char="$char";;
     esac
     curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/Lit_$encode_char"
-done <<< $keyboard
+done <<< $lit
 }
 appsel() {
  echo $chanid | xargs -I {} curl -d '' "http://$ROKU_DEV_TARGET:8060/launch/{}"
