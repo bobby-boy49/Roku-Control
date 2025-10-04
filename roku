@@ -74,7 +74,7 @@ while IFS= read -n 1 -s -r char; do
     '[') encode_char='%5B';;
     ']') encode_char='%5D';;
     *) encode_char="$char";;
-    esac
+  esac
     curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/Lit_$encode_char"
 done <<< $lit
 }
