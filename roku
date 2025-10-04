@@ -177,6 +177,14 @@ force_u() {
   done
 dombo=1
 }
+force_o() {
+  while [ $dombo -le $forceo ]; do
+    powerOff
+    sleep 0.2
+    ((dombo=dombo+1))
+  done
+dombo=1
+}
 sleep_t() {
 dombo=0
   clear
@@ -255,6 +263,8 @@ while read -n 1 -s -r crack; do
     h) home
     ;;
     y) read -p 'Number: ' -r forceh; force_h
+    ;;
+    u) read -p 'Number: ' -r forceo; force_o
     ;;
     m) volumemute
     ;;
