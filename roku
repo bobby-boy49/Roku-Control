@@ -51,7 +51,33 @@ back() {
   curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/back"
 }
 litt() {
-  echo "$lit" | sed "s/./\0\n/g; s/ /%20/g; s/?/%3F/g; s/'/%27/g; s/,/%2C/g; s/\"/%22/g" | xargs -I {} curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/Lit_{}"
+read -r keyboard
+while IFS= read -n 1 -s -r char; do
+  case "$char" in
+    ' ') encode_char='%20';;
+    '?') encode_char='%3F';;
+    "'") encode_char='%27';;
+    ',') encode_char='%2C';;
+    '"') encode_char='%22';;
+    '/') encode_char='%2F';;
+    '\') encode_char='%5C';;
+    '@') encode_char='%40';;
+    ':') encode_char='%3A';;
+    ';') encode_char='%3B';;
+    '#') encode_char='%23';;
+    '$') encode_char='%24';;
+    '%') encode_char='%25';;
+    '&') encode_char='%26';;
+    '+') encode_char='%2B';;
+    '=') encode_char='%3D';;
+    '{') encode_char='%7B';;
+    '}') encode_char='%7D';;
+    '[') encode_char='%5B';;
+    ']') encode_char='%5D';;
+    *) encode_char="$char";;
+    esac
+    curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/Lit_$encode_char"
+done <<< $keyboard
 }
 appsel() {
  echo $chanid | xargs -I {} curl -d '' "http://$ROKU_DEV_TARGET:8060/launch/{}"
@@ -153,7 +179,7 @@ force_u() {
 dombo=1
 }
 sleep_t() {
-  dombo=0
+dombo=0
   clear
   echo "(1) for home."
   echo "(2) for powerOff."
