@@ -190,7 +190,8 @@ dombo=0
   clear
   echo "(1) for home."
   echo "(2) for powerOff."
-  echo "(3) for do nothing."
+  echo "(3) for open app"
+  echo "(4) for do nothing."
   echo
   read -r sleepopt
   case "$sleepopt" in
@@ -198,9 +199,11 @@ dombo=0
     ;;
     2) sleepopt='powerOff'
     ;;
-    3) echo "Ok!"
+    3) chanlog; sleepopt='appsel' 
     ;;
-    *) exit 1
+    4) echo "Ok!"
+    ;;
+    *) echo "Ok!"
     ;;
   esac
   clear
@@ -212,7 +215,7 @@ dombo=0
       ;;
       n|N) echo "Ok!"
       ;;
-      *) exit 1
+      *) echo "Ok!"
       ;;
   esac
   day=86400
