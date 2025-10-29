@@ -190,8 +190,9 @@ dombo=0
   clear
   echo "(1) for home."
   echo "(2) for powerOff."
-  echo "(3) for open app"
-  echo "(4) for do nothing."
+  echo "(3) for select"
+  echo "(4) for open app"
+  echo "(5) for do nothing."
   echo
   read -r sleepopt
   case "$sleepopt" in
@@ -199,9 +200,11 @@ dombo=0
     ;;
     2) sleepopt='powerOff'
     ;;
-    3) chanlog; sleepopt='appsel' 
+    3) sleepopt='selectt'
     ;;
-    4) echo "Ok!"
+    4) chanlog; sleepopt='appsel' 
+    ;;
+    5) echo "Ok!"
     ;;
     *) echo "Ok!"
     ;;
@@ -220,10 +223,11 @@ dombo=0
   esac
   day=86400
   hor=3600
-  while [ $dombo -le $(($sleept*60)) ]; do
+  sec=$((60*$sleept))
+  while [ $dombo -le $sec ]; do
     clear
-    secd=$[sleept*60-dombo]
-    printf "%01d:%01d:%01d:%02d\r\n" \
+    secd=$[sec-dombo]
+    printf "%02d:%02d:%02d:%02d\r\n" \
             $[secd/day] \
             $[secd%day/hor] \
             $[secd%day%hor/60] \
