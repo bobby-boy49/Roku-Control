@@ -191,8 +191,9 @@ dombo=0
   echo "(1) for home."
   echo "(2) for powerOff."
   echo "(3) for select"
-  echo "(4) for open app"
-  echo "(5) for do nothing."
+  echo "(4) for back"
+  echo "(5) for open app"
+  echo "(6) for do nothing."
   echo
   read -r sleepopt
   case "$sleepopt" in
@@ -202,9 +203,11 @@ dombo=0
     ;;
     3) sleepopt='selectt'
     ;;
-    4) chanlog; sleepopt='appsel' 
+    4) sleepopt='back'
     ;;
-    5) echo "Ok!"
+    5) chanlog; sleepopt='appsel' 
+    ;;
+    6) echo "Ok!"
     ;;
     *) echo "Ok!"
     ;;
