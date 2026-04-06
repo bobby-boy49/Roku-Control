@@ -247,6 +247,7 @@ apple() {
 curl -s "http://$ROKU_DEV_TARGET:8060/query/apps"
 }
 ply_yt() {
+yt_id=$(echo $yt_id | sed 's/https:\/\/www.youtube.com\/watch?v=//; s/https:\/\/youtu.be\///')
 curl -d '' "http://$ROKU_DEV_TARGET:8060/launch/837?contentId=$yt_id"
 }
 chanlog() {
