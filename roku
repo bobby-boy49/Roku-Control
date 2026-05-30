@@ -68,32 +68,22 @@ sleep_t() {
   echo
   read -r sleepopt
   case "$sleepopt" in
-    1) sleepopt='home'
-    ;;
-    2) sleepopt='powerOff'
-    ;;
-    3) sleepopt='selectt'
-    ;;
-    4) sleepopt='back'
-    ;;
-    5) chanlog; sleepopt='appsel' 
-    ;;
-    6) echo "Ok!"
-    ;;
-    *) echo "Ok!"
-    ;;
+    1) sleepopt='home';;
+    2) sleepopt='powerOff';;
+    3) sleepopt='selectt';;
+    4) sleepopt='back';;
+    5) chanlog; sleepopt='appsel' ;;
+    6) echo "Ok!";;
+    *) echo "Ok!";;
   esac
   clear
   echo "kill script after countdown? (y/n)"
   echo
   read -r sleepwtd
   case "$sleepwtd" in
-      y|Y) sleepwtd='exit 1'
-      ;;
-      n|N) echo "Ok!"
-      ;;
-      *) echo "Ok!"
-      ;;
+      y|Y) sleepwtd='exit 1';;
+      n|N) echo "Ok!";;
+      *) echo "Ok!";;
   esac
   day=86400
   hor=3600
