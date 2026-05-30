@@ -1,150 +1,63 @@
 #!/usr/bin/env bash
 
-clear; ROKU_DEV_TARGET="192.168.1.210"
+clear;  ROKU_DEV_TARGET="192.168.1.210"
+	ROKU_URL="http://$ROKU_DEV_TARGET:8060" 
 
-home() {
-  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/home"
-}
-up() {
-  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/up"
-}
-down() {
-  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/down"
-}
-left() {
-  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/left"
-}
-right() {
-  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/right"
-}
-selectt() {
-  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/select"
-}
-enter() {
-  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/enter"
-}
-pause() {
-  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/pause"
-}
-volumeup() {
-  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/volumeup"
-}
-volumedown() {
-  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/volumedown"
-}
-volumemute() {
-  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/volumemute"
-}
-powerOn() {
-  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/powerOn"
-}
-powerOff() {
-  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/powerOff"
-}
-search() {
-  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/search"
-}
-backspace() {
-  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/backspace"
-}
-back() {
-  curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/back"
-}
+echo "Roku"
+
+home()		{ curl -s -d '' "$ROKU_URL/keypress/home"; }
+up()		{ curl -s -d '' "$ROKU_URL/keypress/up"; }
+down()		{ curl -s -d '' "$ROKU_URL/keypress/down"; }
+left()		{ curl -s -d '' "$ROKU_URL/keypress/left"; }
+right()		{ curl -s -d '' "$ROKU_URL/keypress/right"; }
+selectt()	{ curl -s -d '' "$ROKU_URL/keypress/select"; }
+enter()		{ curl -s -d '' "$ROKU_URL/keypress/enter"; }
+pause() 	{ curl -s -d '' "$ROKU_URL/keypress/pause"; }
+volumeup() 	{ curl -s -d '' "$ROKU_URL/keypress/volumeup"; }
+volumedown() 	{ curl -s -d '' "$ROKU_URL/keypress/volumedown"; }
+volumemute() 	{ curl -s -d '' "$ROKU_URL/keypress/volumemute"; }
+powerOn() 	{ curl -s -d '' "$ROKU_URL/keypress/powerOn"; }
+powerOff() 	{ curl -s -d '' "$ROKU_URL/keypress/powerOff"; }
+search() 	{ curl -s -d '' "$ROKU_URL/keypress/search"; }
+backspace() 	{ curl -s -d '' "$ROKU_URL/keypress/backspace"; }
+back() 		{ curl -s -d '' "$ROKU_URL/keypress/back"; }
+
+apple() { curl -s "$ROKU_URL/query/apps"; }
+
 litt() {
-while IFS= read -n 1 -s -r char; do
-  case "$char" in
-    ' ') encode_char='%20';;
-    '?') encode_char='%3F';;
-    "'") encode_char='%27';;
-    ',') encode_char='%2C';;
-    '"') encode_char='%22';;
-    '/') encode_char='%2F';;
-    '\') encode_char='%5C';;
-    '@') encode_char='%40';;
-    ':') encode_char='%3A';;
-    ';') encode_char='%3B';;
-    '#') encode_char='%23';;
-    '$') encode_char='%24';;
-    '%') encode_char='%25';;
-    '&') encode_char='%26';;
-    '+') encode_char='%2B';;
-    '=') encode_char='%3D';;
-    '{') encode_char='%7B';;
-    '}') encode_char='%7D';;
-    '[') encode_char='%5B';;
-    ']') encode_char='%5D';;
-    *) encode_char="$char";;
-  esac
-    curl -d '' "http://$ROKU_DEV_TARGET:8060/keypress/Lit_$encode_char"
-done <<< $lit
+  while IFS= read -n 1 -s -r char; do
+      LC_ALL=C printf -v hex '%%%02X' "'$char"
+      encode_char="$hex"
+    curl -s -d '' "$ROKU_URL/keypress/Lit_$encode_char"
+  done << EOF
+$lit
+EOF
 }
-appsel() {
- echo $chanid | xargs -I {} curl -d '' "http://$ROKU_DEV_TARGET:8060/launch/{}"
-}
-clear; echo 'Roku'
 
-dombo=1
+chanlog() {
+  chanid=$(apple | sed -E 's/<app id="([^"]+)".*>\s*(.*)\s*<\/app>/\1 \2/; t; d' | fzf --layout=reverse | awk '{print $1}')
+}
+
+appsel() {
+  if [ -n "$chanid" ]; then
+    curl -s -d '' "$ROKU_URL/launch/$chanid"
+  fi
+}
 
 asdf() {
-while [ $dombo -le 2 ]; do
-  home
-  ((dombo=dombo+1))
-done
-
-dombo=1
-
-sleep 1.5
-
-while [ $dombo -le $sombo ]; do
-  right
-  ((dombo=dombo+1))
-done
-
-dombo=1
-
-while [ $dombo -le $rombo ]; do
-  down
-  ((dombo=dombo+1))
-done
-
-selectt
-dombo=1
+  for _ in $(seq 1 2); do home; done
+  sleep 1.5
+  for _ in $(seq 1 "$sombo"); do right; done
+  for _ in $(seq 1 "$rombo"); do down; done
+  selectt
 }
 
-force_m() {
-while [ $dombo -le $forcem ]; do
-  volumedown
-  sleep 0.2
-  ((dombo=dombo+1))
-done
-dombo=1
-}
-force_h() {
-  while [ $dombo -le $forceh ]; do
-    home
-    sleep 0.2
-    ((dombo=dombo+1))
-  done
-dombo=1
-}
-force_u() {
-  while [ $dombo -le $forceu ]; do
-    volumeup
-    sleep 0.2
-    ((dombo=dombo+1))
-  done
-dombo=1
-}
-force_o() {
-  while [ $dombo -le $forceo ]; do
-    powerOff
-    sleep 0.2
-    ((dombo=dombo+1))
-  done
-dombo=1
-}
+force_m() { for _ in $(seq 1 "$forcem"); do volumedown; sleep 0.2; done; }
+force_u() { for _ in $(seq 1 "$forceu"); do volumeup;   sleep 0.2; done; }
+force_h() { for _ in $(seq 1 "$forceh"); do home;       sleep 0.2; done; }
+force_o() { for _ in $(seq 1 "$forceo"); do powerOff;   sleep 0.2; done; }
+
 sleep_t() {
-dombo=0
   clear
   echo "(1) for home."
   echo "(2) for powerOff."
@@ -185,29 +98,26 @@ dombo=0
   day=86400
   hor=3600
   sec=$((60*$sleept))
-  while [ $dombo -le $sec ]; do
+  for ((dombo=0; dombo<=sec; dombo++)); do
     clear
-    secd=$[sec-dombo]
+    secd=$((sec-dombo))
     printf "%02d:%02d:%02d:%02d\r\n" \
-            $[secd/day] \
-            $[secd%day/hor] \
-            $[secd%day%hor/60] \
-            $[secd%60]
+	    $((secd/day)) \
+	    $((secd%day/hor)) \
+	    $((secd%day%hor/60)) \
+	    $((secd%60))
     sleep 1
-    ((dombo=dombo+1))
   done
   $sleepopt
   clear  
   $sleepwtd
-dombo=1
 }
-apple() {
-curl -s "http://$ROKU_DEV_TARGET:8060/query/apps"
-}
+
 ply_yt() {
 yt_id=$(echo $yt_id | sed 's/https:\/\/www.youtube.com\/watch?v=//; s/https:\/\/youtu.be\///; s/&.*//')
-curl -d '' "http://$ROKU_DEV_TARGET:8060/launch/837?contentId=$yt_id"
+curl -s -d '' "$ROKU_URL/launch/837?contentId=$yt_id"
 }
+
 sus_pa() {
 while true; do
 clear
@@ -221,76 +131,42 @@ fi
 done
 pause
 }
-chanlog() {
-  chanid=$(apple | sed '/<?xml version="1.0" encoding="UTF-8" ?>/d; /<apps>/d; /<\/apps>/d; s/<app//g; s/<\/app>//g; s/"//g; s/id=//g; s/type=appl//g; s/version=//g; s/>/ /g' | fzf --layout=reverse | awk '{print $1}')
-}
+
 while read -n 1 -s -r crack; do
   dumb='Roku'
   case "$crack" in
-    w) up
-    ;;
-    s) down 
-    ;;
-    a) left
-    ;;
-    d) right
-    ;;
-    0) volumeup
-    ;;
-    9) volumedown
-    ;;
-    j) selectt
-    ;;
-    k) enter
-    ;;
-    b) back
-    ;;
-    h) home
-    ;;
-    y) read -p 'Number: ' -r forceh; force_h
-    ;;
-    u) read -p 'Number: ' -r forceo; force_o
-    ;;
-    m) volumemute
-    ;;
-    t) search
-    ;;
-    v) apple | less
-    ;;
-    n) chanlog; appsel
-    ;;
-    e) curl "http://$ROKU_DEV_TARGET:8060/query/media-player"; sleep 5
-    ;;
-    i) curl -s "http://$ROKU_DEV_TARGET:8060/query/device-info" > Roku-info.txt; clear; echo 'Saved info!' 1>&2; sleep 3
-    ;;
-    c) curl "http://$ROKU_DEV_TARGET:8060/query/chanperf"; sleep 5
-    ;;
-    l) read -p 'Keyboard: ' -r lit; litt
-    ;;
-    1) powerOn
-    ;;
-    2) powerOff
-    ;;
-    g) read -p 'Column: ' -r sombo; read -p 'Row: ' -r rombo; asdf
-    ;;
-    p) pause
-    ;;
-    o) pause; sus_pa
-    ;;
-    7) read -p 'Number: ' -r forcem; force_m
-    ;;
-    8) read -p 'Number: ' -r forceu; force_u
-    ;;
-    f) backspace
-    ;;
-    x) read -p 'Min(s): ' -r sleept; sleep_t
-    ;;
-    z) read -p 'YT ID: ' -r yt_id; ply_yt
-    ;;
-    q) clear; exit 1
-    ;;
-    *) dumb="No dumb ass."
-    ;;
+    w) up;;
+    s) down;;
+    a) left;;
+    d) right;;
+    0) volumeup;;
+    9) volumedown;;
+    j) selectt;;
+    k) enter;;
+    b) back;;
+    h) home;;
+    y) read -p 'Number: ' -r forceh; force_h;;
+    u) read -p 'Number: ' -r forceo; force_o;;
+    m) volumemute;;
+    t) search;;
+    v) apple | less;;
+    n) chanlog; appsel;;
+    e) curl -s "$ROKU_URL/query/media-player"; sleep 5;;
+    i) curl -s "$ROKU_URL/query/device-info" > Roku-info.txt; clear; echo 'Saved info!' 1>&2; sleep 3;;
+    c) curl -s "$ROKU_URL/query/chanperf"; sleep 5;;
+    l) read -p 'Keyboard: ' -r lit; litt;;
+    1) powerOn;;
+    2) powerOff;;
+    g) read -p 'Column: ' -r sombo; read -p 'Row: ' -r rombo; asdf;;
+    p) pause;;
+    o) pause; sus_pa;;
+    7) read -p 'Number: ' -r forcem; force_m;;
+    8) read -p 'Number: ' -r forceu; force_u;;
+    f) backspace;;
+    x) read -p 'Min(s): ' -r sleept; sleep_t;;
+    z) read -p 'YT ID: ' -r yt_id; ply_yt;;
+    q) clear; exit 1;;
+    *) dumb="No dumb ass.";;
   esac
   clear
   echo "$dumb"
