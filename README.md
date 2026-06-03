@@ -1,2 +1,2 @@
 # Roku-Control
-My roku control script!
+My roku control scripts!
