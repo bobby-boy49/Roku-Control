@@ -85,7 +85,7 @@ sleep_t() {
       n|N) echo "Ok!";;
       *) echo "Ok!";;
   esac
-  timer $sleept
+  timer "$sleept"
   $sleepopt
   clear  
   $sleepwtd
