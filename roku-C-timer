@@ -1,0 +1,152 @@
+#!/usr/bin/env bash
+
+clear;  ROKU_DEV_TARGET="192.168.1.210"
+	ROKU_URL="http://$ROKU_DEV_TARGET:8060" 
+
+echo "Roku"
+
+home()		{ curl -s -d '' "$ROKU_URL/keypress/home"; }
+up()		{ curl -s -d '' "$ROKU_URL/keypress/up"; }
+down()		{ curl -s -d '' "$ROKU_URL/keypress/down"; }
+left()		{ curl -s -d '' "$ROKU_URL/keypress/left"; }
+right()		{ curl -s -d '' "$ROKU_URL/keypress/right"; }
+selectt()	{ curl -s -d '' "$ROKU_URL/keypress/select"; }
+enter()		{ curl -s -d '' "$ROKU_URL/keypress/enter"; }
+pause() 	{ curl -s -d '' "$ROKU_URL/keypress/pause"; }
+volumeup() 	{ curl -s -d '' "$ROKU_URL/keypress/volumeup"; }
+volumedown() 	{ curl -s -d '' "$ROKU_URL/keypress/volumedown"; }
+volumemute() 	{ curl -s -d '' "$ROKU_URL/keypress/volumemute"; }
+powerOn() 	{ curl -s -d '' "$ROKU_URL/keypress/powerOn"; }
+powerOff() 	{ curl -s -d '' "$ROKU_URL/keypress/powerOff"; }
+search() 	{ curl -s -d '' "$ROKU_URL/keypress/search"; }
+backspace() 	{ curl -s -d '' "$ROKU_URL/keypress/backspace"; }
+back() 		{ curl -s -d '' "$ROKU_URL/keypress/back"; }
+
+apple() { curl -s "$ROKU_URL/query/apps"; }
+
+litt() {
+  while IFS= read -n 1 -s -r char; do
+      LC_ALL=C printf -v hex '%%%02X' "'$char"
+      encode_char="$hex"
+    curl -s -d '' "$ROKU_URL/keypress/Lit_$encode_char"
+  done << EOF
+$lit
+EOF
+}
+
+chanlog() {
+  chanid=$(apple | sed -E 's/<app id="([^"]+)".*>\s*(.*)\s*<\/app>/\1 \2/; t; d' | fzf --layout=reverse | awk '{print $1}')
+}
+
+appsel() {
+  if [ -n "$chanid" ]; then
+    curl -s -d '' "$ROKU_URL/launch/$chanid"
+  fi
+}
+
+asdf() {
+  for _ in $(seq 1 2); do home; done
+  sleep 1.5
+  for _ in $(seq 1 "$sombo"); do right; done
+  for _ in $(seq 1 "$rombo"); do down; done
+  selectt
+}
+
+force_m() { for _ in $(seq 1 "$forcem"); do volumedown; sleep 0.2; done; }
+force_u() { for _ in $(seq 1 "$forceu"); do volumeup;   sleep 0.2; done; }
+force_h() { for _ in $(seq 1 "$forceh"); do home;       sleep 0.2; done; }
+force_o() { for _ in $(seq 1 "$forceo"); do powerOff;   sleep 0.2; done; }
+
+sleep_t() {
+  clear
+  echo "(1) for home."
+  echo "(2) for powerOff."
+  echo "(3) for select"
+  echo "(4) for back"
+  echo "(5) for open app"
+  echo "(6) for do nothing."
+  echo
+  read -r sleepopt
+  case "$sleepopt" in
+    1) sleepopt='home';;
+    2) sleepopt='powerOff';;
+    3) sleepopt='selectt';;
+    4) sleepopt='back';;
+    5) chanlog; sleepopt='appsel';;
+    6) echo "Ok!";;
+    *) echo "Ok!";;
+  esac
+  clear
+  echo "kill script after countdown? (y/n)"
+  echo
+  read -r sleepwtd
+  case "$sleepwtd" in
+      y|Y) sleepwtd='exit 1';;
+      n|N) echo "Ok!";;
+      *) echo "Ok!";;
+  esac
+  timer $sleept
+  $sleepopt
+  clear  
+  $sleepwtd
+}
+
+ply_yt() {
+yt_id=$(echo $yt_id | sed 's/https:\/\/www.youtube.com\/watch?v=//; s/https:\/\/youtu.be\///; s/&.*//')
+curl -s -d '' "$ROKU_URL/launch/837?contentId=$yt_id"
+}
+
+sus_pa() {
+while true; do
+clear
+echo "Hit 'q' to quit."
+read -n 1 -t 60 -s -r suspa
+if [ "$suspa" = "q" ]; then
+  break
+elif [ "$suspa" = "" ]; then
+  up; down
+fi
+done
+pause
+}
+
+while read -n 1 -s -r crack; do
+  dumb='Roku'
+  case "$crack" in
+    w) up;;
+    s) down;;
+    a) left;;
+    d) right;;
+    0) volumeup;;
+    9) volumedown;;
+    j) selectt;;
+    k) enter;;
+    b) back;;
+    h) home;;
+    y) read -p 'Number: ' -r forceh; force_h;;
+    u) read -p 'Number: ' -r forceo; force_o;;
+    m) volumemute;;
+    t) search;;
+    v) apple | less;;
+    n) chanlog; appsel;;
+    e) curl -s "$ROKU_URL/query/media-player"; sleep 5;;
+    i) curl -s "$ROKU_URL/query/device-info" > Roku-info.txt; clear; echo 'Saved info!' 1>&2; sleep 3;;
+    c) curl -s "$ROKU_URL/query/chanperf"; sleep 5;;
+    l) read -p 'Keyboard: ' -r lit; litt;;
+    1) powerOn;;
+    2) powerOff;;
+    g) read -p 'Column: ' -r sombo; read -p 'Row: ' -r rombo; asdf;;
+    p) pause;;
+    o) pause; sus_pa;;
+    7) read -p 'Number: ' -r forcem; force_m;;
+    8) read -p 'Number: ' -r forceu; force_u;;
+    f) backspace;;
+    x) read -p 'Min(s): ' -r sleept; sleep_t;;
+    z) read -p 'YT ID: ' -r yt_id; ply_yt;;
+    q) clear; exit 1;;
+    *) dumb="No dumb ass.";;
+  esac
+  clear
+  echo "$dumb"
+done
+exit 1
